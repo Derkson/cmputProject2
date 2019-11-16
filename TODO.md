@@ -1,3 +1,45 @@
+# Phase 3 (query languages)
+
+## examples
+ - subj:gas
+ - subj:gas body:earning
+ - confidential%
+ - from:phillip.allen@enron.com
+ - to:phillip.allen@enron.com
+ - to:kenneth.shulklapper@enron.com  to:keith.holst@enron.com
+ - date:2001/03/15
+ - date>2001/03/10
+ - bcc:derryl.cleaveland@enron.com  cc:jennifer.medcalf@enron.com
+ - body:stock  confidential  shares  date<2001/04/12
+
+## grammar
+
+```
+alphanumeric    ::= [0-9a-zA-Z_-]
+numeric		::= [0-9]
+date            ::= numeric numeric numeric numeric '/' numeric numeric '/' numeric numeric
+datePrefix      ::= 'date' whitespace* (':' | '>' | '<' | '>=' | '<=')
+dateQuery       ::= datePrefix whitespace* date
+emailterm	::= alphanumeric+ | alphanumeric+ '.' emailterm
+email		::= emailterm '@' emailterm
+emailPrefix	::= (from | to | cc | bcc) whitespace* ':'
+emailQuery	::= emailPrefix whitespace* email
+term            ::= alphanumeric+
+termPrefix	::= (subj | body) whitespace* ':'
+termSuffix      ::= '%' 
+termQuery       ::= termPrefix? whitespace* term termSuffix?
+
+expression      ::= dateQuery | emailQuery | termQuery 
+query           ::= expression (whitespace expression)*
+
+modeChange	::= 'output=full' | 'output=brief'
+
+command		::= query | modeChange
+```
+
+
+
+
 # Phase 2 (TODO indicies)
 
 

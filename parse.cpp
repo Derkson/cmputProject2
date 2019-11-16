@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -20,6 +21,7 @@ int main ()
   //Here we've stripped the first two lines and now each line in the for loop will be an email line
   getline(cin,str);
 
+  ofstream file;
   while (0 != str.compare("</emails>")) {
     //Initialize the variables
     int rowStart = str.find("<row>",6) + 5;
@@ -60,7 +62,41 @@ int main ()
     char sub[subLen + 1];
     sub[subLen] = '\0';
     str.copy(sub, subLen, subStart);
-    cout << subLen << " <Length : sub> " << sub << "\n";
+
+    //Get the cc
+    int ccStart = str.find("<cc>",subEnd + 6) + 4;
+    int ccEnd = str.find("</cc>",ccStart);
+    int ccLen = ccEnd - ccStart;
+    char cc[ccLen + 1];
+    cc[ccLen] = '\0';
+    str.copy(cc, ccLen, ccStart);
+
+    //Get the bcc
+    int bccStart = str.find("<bcc>",ccEnd + 4) + 5;
+    int bccEnd = str.find("</bcc>",bccStart);
+    int bccLen = bccEnd - bccStart;
+    char bcc[bccLen + 1];
+    bcc[bccLen] = '\0';
+    str.copy(bcc, bccLen, bccStart);
+
+    //Get the body!!
+    int bodyStart = str.find("<body>",bccEnd + 5) + 6;
+    int bodyEnd = str.find("</body>",bodyStart);
+    int bodyLen = bodyEnd - bodyStart;
+    char body[bodyLen + 1];
+    body[bodyLen] = '\0';
+    str.copy(body, bodyLen, bodyStart);
+
+
+    //Print the str to rec
+    file.open("recs.txt",fstream::app);
+    file << row << ":" << str << '\n';
+    file.close();
+
+    //Print to date
+    file.open("dates.txt",fstream::app);
+    file << date << ":" << row << '\n';
+    file.close();
 
     //Get the next email line
     getline(cin,str);

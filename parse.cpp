@@ -46,14 +46,21 @@ int main ()
     str.copy(from, fromLen, fromStart);
 
     //Get the to
-    cout << "Hollyywood";
     int toStart = str.find("<to>",fromEnd + 6) + 4;
     int toEnd = str.find("</to>",toStart);
     int toLen = toEnd - toStart;
     char to[toLen + 1];
     to[toLen] = '\0';
     str.copy(to, toLen, toStart);
-    cout << toLen << " <Length : to> " << to << "\n";
+
+    //Get the subj
+    int subStart = str.find("<subj>",toEnd + 4) + 6;
+    int subEnd = str.find("</subj>",subStart);
+    int subLen = subEnd - subStart;
+    char sub[subLen + 1];
+    sub[subLen] = '\0';
+    str.copy(sub, subLen, subStart);
+    cout << subLen << " <Length : sub> " << sub << "\n";
 
     //Get the next email line
     getline(cin,str);

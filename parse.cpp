@@ -2,8 +2,39 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
+//using namespace std;
+
+//Copied
+#include <vector>
+#include <string>
+#include <cstring>
 using namespace std;
 
+/**
+ * @brief Tokenize a string
+ *
+ * @param str - The string to tokenize
+ * @param delim - The string containing delimiter character(s)
+ * @return std::vector<std::string> - The list of tokenized strings. Can be empty
+ */
+std::vector<std::string> tokenize(const std::string &str, const char *delim) {
+  char* cstr = new char[str.size() + 1];
+  std::strcpy(cstr, str.c_str());
+
+  char* tokenized_string = strtok(cstr, delim);
+
+  std::vector<std::string> tokens;
+  while (tokenized_string != NULL)
+  {
+    tokens.push_back(std::string(tokenized_string));
+    tokenized_string = strtok(NULL, delim);
+  }
+  delete[] cstr;
+
+  return tokens;
+}
+//Copied
 int main ()
 {
   string str;
@@ -97,6 +128,15 @@ int main ()
     file.open("dates.txt",fstream::app);
     file << date << ":" << row << '\n';
     file.close();
+
+    //Print to terms
+    file.open("terms.txt",fstream::app);
+    std::vector<std::string> termsvector;
+    std::string subterms(sub);
+    termsvector = tokenize(subterms," ");
+    file << "s-" << termsvector[0] << ":" << row << '\n';
+    file.close();
+
 
     //Get the next email line
     getline(cin,str);

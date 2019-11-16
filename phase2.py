@@ -4,7 +4,7 @@ import argparse
 
 def init_idx(db_type, prefix): #db.DB_HASH or db.DB_BTREE
     database = db.DB()
-    DB_File = "{}.idx".format(prefix)
+    DB_File = "{}.idx".format(prefix[:2])
     database.open(DB_File, None, db_type, db.DB_CREATE)
 
     k = ""

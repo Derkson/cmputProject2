@@ -7,9 +7,17 @@ def init_idx(db_type, prefix): #db.DB_HASH or db.DB_BTREE
     DB_File = "{}.idx".format(prefix)
     database.open(DB_File, None, db_type, db.DB_CREATE)
 
-    for line in stdin:
-        k,v = line.split(":")
-        database.put(k.encode("utf8"),v)
+    k = ""
+    v = ""
+    for i, line in enumerate(stdin):
+        #k,v = line.split(":")
+        if i % 2 == 0:
+            # evens -> k
+            k = line
+        else:
+            # odd -> v
+            v = line
+            database.put(k.encode("utf8"),v)
 
 if __name__ == '__main__':
     typeMapper = {"btree":db.DB_BTREE, "hash":db.DB_HASH}

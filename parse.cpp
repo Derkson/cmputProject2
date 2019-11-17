@@ -52,9 +52,18 @@ int main ()
   //Here we've stripped the first two lines and now each line in the for loop will be an email line
   getline(cin,str);
 
-  ofstream file;
+  //Open the files
+  ofstream datesfile;
+  datesfile.open("dates.txt",fstream::app);
+  ofstream emailsfile;
+  emailsfile.open("emails.txt",fstream::app);
+  ofstream recsfile;
+  recsfile.open("recs.txt",fstream::app);
+  ofstream termsfile;
+  termsfile.open("terms.txt",fstream::app);
+
   while (0 != str.compare("</emails>")) {
-    //Initialize the variables
+    //get the row
     int rowStart = str.find("<row>",6) + 5;
     int rowEnd = str.find("</row>",rowStart);
     int rowLen = rowEnd - rowStart;
@@ -62,7 +71,7 @@ int main ()
     row[rowLen] = '\0';
     str.copy(row, rowLen, rowStart);
 
-    //Get the date Alex, GET THE DATE!!
+    //Get the date
     int dateStart = str.find("<date>",rowEnd + 5) + 6;
     int dateEnd = str.find("</date>",dateStart);
     int dateLen = dateEnd - dateStart;
@@ -120,27 +129,36 @@ int main ()
 
 
     //Print the str to rec
-    file.open("recs.txt",fstream::app);
-    file << row << ":" << str << '\n';
-    file.close();
+    recsfile << row << ":" << str << '\n';
 
     //Print to date
-    file.open("dates.txt",fstream::app);
-    file << date << ":" << row << '\n';
-    file.close();
+    datesfile << date << ":" << row << '\n';
 
     //Print to terms
-    file.open("terms.txt",fstream::app);
     std::vector<std::string> termsvector;
     std::string subterms(sub);
     termsvector = tokenize(subterms," ");
-    file << "s-" << termsvector[0] << ":" << row << '\n';
-    file.close();
+    for (int i = 0; i < termsvector.size(); i++) {
+      std::transform(termsvector[i].begin(), termsvector[i].end(), termsvector[i].begin(), std::tolower);
+      termsfile << "s-" << termsvector[i] << ":" << row << '\n';
+    }
+    std::string bodyterms(body);
+    termsvector = tokenize(bodyterms," ");
+    for (int i = 0; i < termsvector.size(); i++) {
+      std::transform(termsvector[i].begin(), termsvector[i].end(), termsvector[i].begin(), std::tolower);
+      termsfile << "b-" << termsvector[i] << ":" << row << '\n';
+    }
 
 
     //Get the next email line
     getline(cin,str);
   }
+  //Close the files
+  datesfile.close();
+  emailsfile.close();
+  recsfile.close();
+  termsfile.close();
+
   cout << "End\n";
   return 0;
 }

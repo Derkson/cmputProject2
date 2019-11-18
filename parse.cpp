@@ -2,39 +2,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <set>
 
-//using namespace std;
-
-//Copied
-#include <vector>
-#include <string>
-#include <cstring>
 using namespace std;
 
-/**
- * @brief Tokenize a string
- *
- * @param str - The string to tokenize
- * @param delim - The string containing delimiter character(s)
- * @return std::vector<std::string> - The list of tokenized strings. Can be empty
- */
-std::vector<std::string> tokenize(const std::string &str, const char *delim) {
-  char* cstr = new char[str.size() + 1];
-  std::strcpy(cstr, str.c_str());
 
-  char* tokenized_string = strtok(cstr, delim);
-
-  std::vector<std::string> tokens;
-  while (tokenized_string != NULL)
-  {
-    tokens.push_back(std::string(tokenized_string));
-    tokenized_string = strtok(NULL, delim);
-  }
-  delete[] cstr;
-
-  return tokens;
-}
-//Copied
 int main ()
 {
   string str;
@@ -61,6 +33,11 @@ int main ()
   recsfile.open("recs.txt",fstream::app);
   ofstream termsfile;
   termsfile.open("terms.txt",fstream::app);
+
+  //Set up set of valid chars for term comparison
+  set<char> valid;
+  char const * validList = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_";
+  valid.insert(validList, validList + strlen(validList));
 
   while (0 != str.compare("</emails>")) {
     //get the row
@@ -135,18 +112,116 @@ int main ()
     datesfile << date << ":" << row << '\n';
 
     //Print to terms
-    std::vector<std::string> termsvector;
-    std::string subterms(sub);
-    termsvector = tokenize(subterms," ");
-    for (int i = 0; i < termsvector.size(); i++) {
-      std::transform(termsvector[i].begin(), termsvector[i].end(), termsvector[i].begin(), std::tolower);
-      termsfile << "s-" << termsvector[i] << ":" << row << '\n';
+    //sub
+    if (subLen != 0) {
+      string tempsub = "";
+      bool ignore = false; //A boolean for if we're in an ignored term
+      for (int i = 0; i < subLen; i++) {
+        if ('&' == sub[i]) {
+          ignore = true;
+          if (tempsub.length() > 2) {
+            termsfile << "s-" << tempsub << ":" << row << "\n";
+            tempsub = "";
+          }
+        }
+        else if (ignore == false) {
+          if (valid.count(sub[i]) == 1) {
+            tempsub.push_back(tolower(sub[i]));
+          }
+          else {
+            if (tempsub.length() > 2) {
+              termsfile << "s-" << tempsub << ":" << row << "\n";
+            }
+            ignore = false;
+            tempsub = "";
+          }
+        }
+        else if (';' == sub[i]) {
+          ignore = false;
+        }
+      }
+      termsfile << "s-" << tempsub << ":" << row << "\n";
     }
-    std::string bodyterms(body);
-    termsvector = tokenize(bodyterms," ");
-    for (int i = 0; i < termsvector.size(); i++) {
-      std::transform(termsvector[i].begin(), termsvector[i].end(), termsvector[i].begin(), std::tolower);
-      termsfile << "b-" << termsvector[i] << ":" << row << '\n';
+
+    //body
+    if (bodyLen != 0) {
+      string tempbody = "";
+      bool ignore = 0; //A boolean for if we're in an ignored term
+      for (int i = 0; i < bodyLen; i++) {
+        if ('&' == body[i]) {
+          ignore = true;
+          if (tempbody.length() > 2) {
+            termsfile << "b-" << tempbody << ":" << row << "\n";
+            tempbody = "";
+          }
+        }
+        else if (ignore == false) {
+          if (valid.count(body[i]) == 1) {
+            tempbody.push_back(tolower(body[i]));
+          }
+          else {
+            if (tempbody.length() > 2) {
+              termsfile << "b-" << tempbody << ":" << row << "\n";
+            }
+            ignore = false;
+            tempbody = "";
+          }
+        }
+        else if (';' == body[i]) {
+          ignore = false;
+        }
+      }
+      termsfile << "b-" << tempbody << ":" << row << "\n";
+    }
+
+
+    //Print to emails
+    //from
+    emailsfile << "from-" << from << ':' << row << '\n';
+
+    //to
+    if (toLen != 0) {
+      string tempto = "";
+      for (int i = 0; i < toLen; i++) {
+        if (',' == to[i]) {
+          emailsfile << "to-" << tempto << ":" << row << "\n";
+          tempto = "";
+        }
+        else{
+          tempto.push_back(tolower(to[i]));
+        }
+      }
+      emailsfile << "to-" << tempto << ":" << row << "\n";
+    }
+
+    //cc
+    if (ccLen != 0) {
+      string tempcc = "";
+      for (int i = 0; i < ccLen; i++) {
+        if (',' == cc[i]) {
+          emailsfile << "cc-" << tempcc << ":" << row << "\n";
+          tempcc = "";
+        }
+        else{
+          tempcc.push_back(tolower(cc[i]));
+        }
+      }
+      emailsfile << "cc-" << tempcc << ":" << row << "\n";
+    }
+
+    //bcc
+    if (bccLen != 0) {
+      string tempbcc = "";
+      for (int i = 0; i < bccLen; i++) {
+        if (',' == bcc[i]) {
+          emailsfile << "bcc-" << tempbcc << ":" << row << "\n";
+          tempbcc = "";
+        }
+        else{
+          tempbcc.push_back(tolower(bcc[i]));
+        }
+      }
+      emailsfile << "bcc-" << tempbcc << ":" << row << "\n";
     }
 
 

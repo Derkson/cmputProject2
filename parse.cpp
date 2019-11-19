@@ -121,8 +121,8 @@ int main ()
           ignore = true;
           if (tempsub.length() > 2) {
             termsfile << "s-" << tempsub << ":" << row << "\n";
-            tempsub = "";
           }
+          tempsub = "";
         }
         else if (ignore == false) {
           if (valid.count(sub[i]) == 1) {
@@ -140,7 +140,9 @@ int main ()
           ignore = false;
         }
       }
-      termsfile << "s-" << tempsub << ":" << row << "\n";
+      if (tempsub.length() > 2) {
+        termsfile << "s-" << tempsub << ":" << row << "\n";
+      }
     }
 
     //body
@@ -152,8 +154,8 @@ int main ()
           ignore = true;
           if (tempbody.length() > 2) {
             termsfile << "b-" << tempbody << ":" << row << "\n";
-            tempbody = "";
           }
+          tempbody = "";
         }
         else if (ignore == false) {
           if (valid.count(body[i]) == 1) {
@@ -171,7 +173,9 @@ int main ()
           ignore = false;
         }
       }
-      termsfile << "b-" << tempbody << ":" << row << "\n";
+      if (tempbody.length() > 2) {
+        termsfile << "b-" << tempbody << ":" << row << "\n";
+      }
     }
 
 

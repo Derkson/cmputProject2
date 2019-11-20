@@ -1,7 +1,6 @@
-# Phase 2 (TODO indicies)
+# Phase 2 (ALL DONE)
 
-
-## create the following four indexes:
+## create the following four indexes: 
 
 (1) a hash index on recs.txt with row ids as keys and the full email record as data,
 	- rowID

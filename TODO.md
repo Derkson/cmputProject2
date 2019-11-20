@@ -6,15 +6,15 @@
 (1) a hash index on recs.txt with row ids as keys and the full email record as data,
 	- rowID
 	- full record
- 
-(2) a B+-tree index on terms.txt with terms as keys and row ids as data, 
+
+(2) a B+-tree index on terms.txt with terms as keys and row ids as data,
 	- K: terms
 	- V: row ID
 
 (3) a B+-tree index on emails.txt with emails as keys and row ids as data, and
 	- K: emails
 	- V: row ID
- 
+
 (4) a B+-tree index on dates.txt with dates as keys and row ids as data.
 	- K: dates
 	- V: row ID	 

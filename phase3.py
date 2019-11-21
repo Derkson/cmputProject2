@@ -25,16 +25,6 @@ def handle_mode(cmd):
 	else:
 		raise Exception("Invalid Mode change")
 
-#def process_email_q(cmd):
-#	raise Exception("handle emails")
-#
-#def process_date_q(cmd):
-#	raise Exception("handle dates")
-#
-#def process_term_q(cmd):
-#	raise Exception("handle terms")
-#
-
 def handle_command(cmd):
 	global mode
 	remaining = cmd	

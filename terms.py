@@ -5,7 +5,7 @@ def process_term_q(cmd):
 	if cmd == "":
 		return "", None
 
-	regex = "((subj|body)?(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
+	regex = "((subj|body)(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
 	matcher = re.search(regex, cmd)
 	if matcher == None or matcher.span()[0] != 0:
 		raise Exception("Error: parsing term query: {}".format(cmd))
@@ -40,6 +40,8 @@ if __name__ == "__main__":
 		try:
 			rem, obj = process_term_q(cmd)
 			assert(False)
+		except AssertionError as e:
+			print("Assertion Failed: {}".format(cmd))
 		except Exception as e:
 			assert(True)
 			
@@ -63,8 +65,7 @@ if __name__ == "__main__":
 	test_proc("subj%   ","   ",("",'subj',True) ) 
 	test_proc("subj %   "," %   ",("",'subj',False) )
 	
-	 
-	# TODO: invalid tests 
-	# "body    :    "
-	test_error(": body")
-	test_error("< body")
+	test_error("#m_-90#") 
+	test_error(" : body")
+	test_error(" < body")
+	test_error(": to")

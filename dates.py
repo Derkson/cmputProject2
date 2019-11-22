@@ -15,7 +15,7 @@ def process_date_q(cmd):
 
 
 if __name__ == "__main__":
-
+	pass
 	#print(process_date_q("date>9999/12/22		yeet 	date:1233/33/21"))
 	#print(process_date_q("date>1923/44/23   date:3455/12/56"))
 	#print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))

@@ -13,7 +13,8 @@ def process_date_q(cmd):
 		date = re.search("\d{4}\/\d{2}\/\d{2}", matcher.group(0))
 		return cmd[len(matcher.group(0)):].strip(), (operator.group(0), date.group(0))
 	else:
-		raise Exception("Invalid Query")
+		#raise Exception("Invalid Query")
+		return cmd, None
 
 
 if __name__ == "__main__":

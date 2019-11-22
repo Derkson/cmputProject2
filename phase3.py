@@ -27,32 +27,33 @@ def handle_mode(cmd):
 
 def handle_command(cmd):
 	global mode
-	remaining = cmd	
 	obj = None
-	while remaining != "":
-		# clean up command
-		cmd = remaining.strip()	
-		# case statement for all input handlers
+	while cmd != "":
+		cmd = cmd.strip()	
+		
 		if starts_with(cmd, "output="):
 			print("MODE")
-			remaining, obj = handle_mode(cmd)
-		elif starts_with(cmd, "date"):
-			print("DATE")
-			remaining, obj = process_date_q(cmd)
-			print(obj)
-		elif starts_with_email(cmd):
-			print("email")
-			remaining, obj = process_email_q(cmd)
-			print(obj)
-			print(remaining)
-			print('----')
-		elif cmd == "exit()":
+			cmd, obj = handle_mode(cmd)
+			break; # only allowd to have mode change
+		
+		if cmd == "exit()":
 			# Custom Exit command
 			raise KeyboardInterrupt()
-		else:
-			print("term")
-			remaining, obj = process_term_q(cmd)
+
+		if starts_with(cmd, "date"):
+			cmd, obj = process_date_q(cmd.strip())
 			print(obj)
+			if obj != None:
+				continue
+		
+		if starts_with_email(cmd):
+			cmd, obj = process_email_q(cmd.strip())
+			print(obj)
+			if obj != None:
+				continue
+
+		cmd, obj = process_term_q(cmd.strip())
+		print(obj)
 
 
 def main():
@@ -61,7 +62,6 @@ def main():
 		try:
 			# prompt for a command
 			handle_command(input("> ").strip())
-			print(mode)
 		except KeyboardInterrupt as e:
 			print("\nBye!")
 			exit(0)

@@ -1,6 +1,10 @@
 import re
 
 def process_term_q(cmd):
+	# if there is nothing left, return nothing
+	if cmd == "":
+		return "", None
+
 	regex = "((subj|body)?(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
 	matcher = re.search(regex, cmd)
 	if matcher == None:

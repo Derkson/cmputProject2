@@ -34,15 +34,22 @@ def handle_command(cmd):
 		cmd = remaining.strip()	
 		# case statement for all input handlers
 		if starts_with(cmd, "output="):
+			print("MODE")
 			remaining, obj = handle_mode(cmd)
 		elif starts_with(cmd, "date"):
+			print("DATE")
 			remaining, obj = process_date_q(cmd)
 		elif starts_with_email(cmd):
+			print("email")
 			remaining, obj = process_email_q(cmd)
+			print(obj)
+			print(remaining)
+			print('----')
 		elif cmd == "exit()":
 			# Custom Exit command
 			raise KeyboardInterrupt()
 		else:
+			print("term")
 			remaining, obj = process_term_q(cmd)
 
 
@@ -56,8 +63,8 @@ def main():
 		except KeyboardInterrupt as e:
 			print("\nBye!")
 			exit(0)
-		except Exception as e:
-			print(e)
+#		except Exception as e:
+#			print(e)
 
 if __name__ == "__main__":
 	main()

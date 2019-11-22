@@ -6,7 +6,7 @@ import re
 def process_date_q(cmd):
 	dateQuery = "(date)\s*(:|>|<|>=|<=)\s*\d{4}\/\d{2}\/\d{2}" #regex to find a valid date query
 	matcher = re.search(dateQuery, cmd)
-	if matcher:
+	if matcher and matcher.span()[0] == 0:
 		operator = re.search("(:|>|<|>=|<=)", matcher.group(0))
 		date = re.search("\d{4}\/\d{2}\/\d{2}", matcher.group(0))
 		return cmd[len(matcher.group(0)):].strip(), (operator.group(0), date.group(0))

@@ -28,21 +28,22 @@ def handle_mode(cmd):
 def handle_command(cmd):
 	global mode
 	remaining = cmd	
+	obj = None
 	while remaining != "":
 		# clean up command
 		cmd = remaining.strip()	
 		# case statement for all input handlers
 		if starts_with(cmd, "output="):
-			remaining = handle_mode(cmd)
+			remaining, obj = handle_mode(cmd)
 		elif starts_with(cmd, "date"):
-			remaining = process_date_q(cmd)
+			remaining, obj = process_date_q(cmd)
 		elif starts_with_email(cmd):
-			remaining = process_email_q(cmd)
+			remaining, obj = process_email_q(cmd)
 		elif cmd == "exit()":
 			# Custom Exit command
 			raise KeyboardInterrupt()
 		else:
-			remaining = process_term_q(cmd)
+			remaining, obj = process_term_q(cmd)
 
 
 def main():

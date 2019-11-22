@@ -39,6 +39,7 @@ def handle_command(cmd):
 		elif starts_with(cmd, "date"):
 			print("DATE")
 			remaining, obj = process_date_q(cmd)
+			print(obj)
 		elif starts_with_email(cmd):
 			print("email")
 			remaining, obj = process_email_q(cmd)
@@ -51,6 +52,7 @@ def handle_command(cmd):
 		else:
 			print("term")
 			remaining, obj = process_term_q(cmd)
+			print(obj)
 
 
 def main():

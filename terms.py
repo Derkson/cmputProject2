@@ -27,28 +27,29 @@ def process_term_q(cmd):
 
 
 if __name__ == "__main__":
+	def test_proc(cmd, e_rem, e_obj):
+		rem, obj = process_term_q(cmd)
+		assert(rem == e_rem)
+		assert( obj == e_obj) 
+			
+	print("running tests...")
+	test_proc("body:tm_-90    ","    ",('body', 'tm_-90', False)) 
+	test_proc("subj:tem_-123   ","   ",('subj', 'tem_-123', False) ) 
+	test_proc("body:  m_-23  ","  ", ('body','m_-23',False)) 
+	test_proc("subj  : term-_90 "," ",('subj','term-_90',False) ) 
+	test_proc("termmmm-_90 "," ",("",'termmmm-_90',False) ) 
+	test_proc("termm-_90   ","   ",("",'termm-_90',False) ) 
 	
-	print("term tests")
-	assert( process_term_q("body:termm_-90    ")[0] =="    ") 
-	assert( process_term_q("subj:termm_-123   ")[0] =="   ") 
-	assert( process_term_q("body:  termm_-23  ")[0] =="  ") 
-	assert( process_term_q("subj  : termm-_90 ")[0] ==" ") 
-	assert( process_term_q("termmmm-_90 ")[0] ==" ") 
-	assert( process_term_q("termm-_90   ")[0] =="   ") 
-	
-	print("suffix tests")
-	assert( process_term_q("subj  : termm-_90% ")[0] ==" ") 
-	assert( process_term_q("body:  termm_-23%  ")[0] =="  ") 
-	assert( process_term_q("body:termm_-90%    ")[0] =="    ") 
-	assert( process_term_q("subj:termm_-123%   ")[0] =="   ")
-	assert( process_term_q("termmmm-_90% ")[0] ==" ") 
-	assert( process_term_q("termm-_90%   ")[0] =="   ") 
+	test_proc("subj  : termm-_90% "," ",('subj','termm-_90',True) ) 
+	test_proc("body:  termm_-23%  ","  ",('body','termm_-23',True) ) 
+	test_proc("body:termm_-90%    ","    ",('body','termm_-90',True) ) 
+	test_proc("subj:termm_-123%   ","   ",('subj','termm_-123',True) )
+	test_proc("termmmm-_90% "," ",("",'termmmm-_90',True) ) 
+	test_proc("termm-_90%   ","   ",("",'termm-_90',True) ) 
 
-	
-	print("Just the word body or subj")
-	assert( process_term_q("body%   ")[0] =="   ") 
-	assert( process_term_q("subj%   ")[0] =="   ") 
-	assert( process_term_q("subj %   ")[0] ==" %   ")
+	test_proc("body%   ","   ",("",'body',True) ) 
+	test_proc("subj%   ","   ",("",'subj',True) ) 
+	test_proc("subj %   "," %   ",("",'subj',False) )
 	 
 	# TODO: invalid tests 
 	# "body    :    " 

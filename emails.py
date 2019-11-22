@@ -13,8 +13,8 @@ def process_email_q(cmd):
 	#Here endIndex =  the index of the first space after the email
 
 	email = cmd[colonIndex + 1:endIndex].strip()
-	number = ["to","from","cc","bcc"].index(cmd[:(colonIndex-1)])
-	
+	number = ["to","from","cc","bcc"].index(cmd[:(colonIndex-1)].strip())
+
 	return (cmd[endIndex:].stripl() , (number , email))
 
 

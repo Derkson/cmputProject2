@@ -8,7 +8,7 @@ def process_term_q(cmd):
 	regex = "((subj|body)(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
 	matcher = re.search(regex, cmd)
 	if matcher == None or matcher.span()[0] != 0:
-		raise Exception("Error: parsing term query: {}".format(cmd))
+		raise Exception("Error: parsing term query: \'{}\'".format(cmd))
 	term_q = matcher.group(0)
 	
 	prefix = ""

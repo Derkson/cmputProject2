@@ -9,7 +9,7 @@ def process_term_q(cmd):
 
 	
 	# return everything that isnt the term query
-	return cmd[matcher.span()[1]:]
+	return cmd[matcher.span()[1]:], "AAAAAA"
 
 
 if __name__ == "__main__":

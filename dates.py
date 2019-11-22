@@ -15,17 +15,9 @@ def process_date_q(cmd):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
 	#pass
 	print(process_date_q("date>9999/12/22		yeet 	date:1233/33/21"))
 	print(process_date_q("date>1923/44/23   date:3455/12/56"))
 	print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))
 	print(process_date_q("DATE/4/213/3"))
-=======
-	pass
-	#print(process_date_q("date>9999/12/22		yeet 	date:1233/33/21"))
-	#print(process_date_q("date>1923/44/23   date:3455/12/56"))
-	#print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))
-	#print(process_date_q("DATE/4/213/3"))
->>>>>>> dd3b27ba9b3a58aa2e2505db1feb7d59246634d1
 	#print("Testing dates...")

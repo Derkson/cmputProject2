@@ -1,10 +1,10 @@
 import re
 
 def process_term_q(cmd):
-	#print("Processing terms.....")
-
 	regex = "((subj|body)?(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
 	matcher = re.search(regex, cmd)
+	if matcher == None:
+		raise Exception("Error: parsing term query: {}".format(cmd))
 	term_q = matcher.group(0)
 	
 	prefix = ""

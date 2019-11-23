@@ -1,3 +1,4 @@
+import bsddb
 
 def process_email_q(cmd):
 	#print("emails")
@@ -33,7 +34,16 @@ def process_email_q(cmd):
 		return cmd, None
 
 def get_email_rows(eList):
-	pass
+
+	emailSet = set()
+	db = database.open('em.idx')
+
+	while !eList.isEmpty():
+		current = eList.pop()
+		emailSet.add( db.get( ["to","from","cc","bcc"].get(current[0]) + '-' + current[1]))
+		pass
+
+	return emailSet
 
 
 if __name__ == "__main__":

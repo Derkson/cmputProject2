@@ -61,7 +61,8 @@ def handle_command(cmd):
 		print(obj)
 		termlist.append(obj)
 
-	
+	dateSet = get_date_rows(datelist)
+	emailSet =  get_email_rows(emaillist)
 
 
 def main():

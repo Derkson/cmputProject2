@@ -15,14 +15,18 @@ def process_date_q(cmd):
 		raise Exception("Invalid Query")
 
 
-def get_date_range(datelist):
-	# Return an upper bound and a lower bound 
+def get_date_range(l,u,datelist):
+	# Return an upper bound and a lower bound
+	l = ""
 	pass
 
 def get_date_rows(datelist):
-	l, u = get_date_range(datelist)
+	# i will get you your databse lower and upperBound
+	l, u = get_date_range(l,u,datelist)
+	if l == None:
+		return set()
 	return get_date_rows_range(l, u)
-	
+
 
 def get_date_rows_range(lowerBound, upperBound):
 	pass

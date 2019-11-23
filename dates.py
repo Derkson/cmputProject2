@@ -4,7 +4,7 @@ import operator
 #returns a tuple, 0th index is the remaining string, 1st index another tuple
 #with 0th index being the operator and the 1st index is the date
 
-#op_dict = {">":operator.gt(), "<":operator.lt(), ">=":operator.ge(), "<=":operator.le(), ":":operator.eq()}
+op_dict = {">":operator.gt(), "<":operator.lt(), ">=":operator.ge(), "<=":operator.le(), ":":operator.eq()}
 def process_date_q(cmd):
 	dateQuery = "(date)\s*(:|>|<|>=|<=)\s*\d{4}\/\d{2}\/\d{2}" #regex to find a valid date query
 	matcher = re.search(dateQuery, cmd)
@@ -15,6 +15,13 @@ def process_date_q(cmd):
 	else:
 		raise Exception("Invalid Query")
 
+
+def get_date_range():
+	pass
+
+
+def get_date_rows():
+	pass
 
 if __name__ == "__main__":
 	#pass

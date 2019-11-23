@@ -12,7 +12,7 @@ def starts_with_email(string):
 	return starts_with(string, "to") or \
 			starts_with(string, "from")  or \
 			starts_with(string, "cc")  or \
-			starts_with(string, "bcc") 
+			starts_with(string, "bcc")
 
 def handle_mode(cmd):
 	global mode
@@ -28,14 +28,17 @@ def handle_mode(cmd):
 def handle_command(cmd):
 	global mode
 	obj = None
+	datelist = []
+	emaillist = []
+	termlist = []
 	while cmd != "":
-		cmd = cmd.strip()	
-		
+		cmd = cmd.strip()
+
 		if starts_with(cmd, "output="):
 			print("MODE")
 			cmd, obj = handle_mode(cmd)
 			break; # only allowd to have mode change
-		
+
 		if cmd == "exit()":
 			# Custom Exit command
 			raise KeyboardInterrupt()
@@ -44,16 +47,21 @@ def handle_command(cmd):
 			cmd, obj = process_date_q(cmd.strip())
 			print(obj)
 			if obj != None:
+				datelist.append(obj)
 				continue
-		
+
 		if starts_with_email(cmd):
 			cmd, obj = process_email_q(cmd.strip())
 			print(obj)
 			if obj != None:
+				emaillist.append(obj)
 				continue
 
 		cmd, obj = process_term_q(cmd.strip())
 		print(obj)
+		termlist.append(obj)
+
+	
 
 
 def main():
@@ -70,4 +78,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-

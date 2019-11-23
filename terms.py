@@ -5,10 +5,10 @@ def process_term_q(cmd):
 	if cmd == "":
 		return "", None
 
-	regex = "((subj|body)?(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
+	regex = "((subj|body)(\s)*:)?(\s)*[0-9a-zA-Z_-]+[%]?"
 	matcher = re.search(regex, cmd)
-	if matcher == None:
-		raise Exception("Error: parsing term query: {}".format(cmd))
+	if matcher == None or matcher.span()[0] != 0:
+		raise Exception("Error: parsing term query: \'{}\'".format(cmd))
 	term_q = matcher.group(0)
 	
 	prefix = ""
@@ -34,7 +34,16 @@ if __name__ == "__main__":
 	def test_proc(cmd, e_rem, e_obj):
 		rem, obj = process_term_q(cmd)
 		assert(rem == e_rem)
-		assert( obj == e_obj) 
+		assert( obj == e_obj)
+	
+	def test_error(cmd):
+		try:
+			rem, obj = process_term_q(cmd)
+			assert(False)
+		except AssertionError as e:
+			print("Assertion Failed: {}".format(cmd))
+		except Exception as e:
+			assert(True)
 			
 	print("running tests...")
 	test_proc("body:tm_-90    ","    ",('body', 'tm_-90', False)) 
@@ -43,6 +52,7 @@ if __name__ == "__main__":
 	test_proc("subj  : term-_90 "," ",('subj','term-_90',False) ) 
 	test_proc("termmmm-_90 "," ",("",'termmmm-_90',False) ) 
 	test_proc("termm-_90   ","   ",("",'termm-_90',False) ) 
+	test_proc("date : to"," : to",("",'date',False) )
 	
 	test_proc("subj  : termm-_90% "," ",('subj','termm-_90',True) ) 
 	test_proc("body:  termm_-23%  ","  ",('body','termm_-23',True) ) 
@@ -54,7 +64,8 @@ if __name__ == "__main__":
 	test_proc("body%   ","   ",("",'body',True) ) 
 	test_proc("subj%   ","   ",("",'subj',True) ) 
 	test_proc("subj %   "," %   ",("",'subj',False) )
-	 
-	# TODO: invalid tests 
-	# "body    :    " 
-
+	
+	test_error("#m_-90#") 
+	test_error(" : body")
+	test_error(" < body")
+	test_error(": to")

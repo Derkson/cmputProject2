@@ -20,7 +20,6 @@ def get_date_range():
 
 
 def get_date_rows(lowerBound, upperBound):
-	
 	pass
 
 if __name__ == "__main__":

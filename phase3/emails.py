@@ -43,7 +43,7 @@ def get_email_rows(eList):
 		emailSet.add( db.get( ["to","from","cc","bcc"].get(current[0]) + '-' + current[1]))
 		pass
 
-	pass
+	return emailSet
 
 
 if __name__ == "__main__":

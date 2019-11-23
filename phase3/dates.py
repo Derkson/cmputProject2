@@ -1,10 +1,9 @@
 import re
-import operator
+from datetime import *
 #takes a large string, and slices out the first valid date query,
 #returns a tuple, 0th index is the remaining string, 1st index another tuple
 #with 0th index being the operator and the 1st index is the date
 
-op_dict = {">":operator.gt(), "<":operator.lt(), ">=":operator.ge(), "<=":operator.le(), ":":operator.eq()}
 def process_date_q(cmd):
 	dateQuery = "(date)\s*(:|>|<|>=|<=)\s*\d{4}\/\d{2}\/\d{2}" #regex to find a valid date query
 	matcher = re.search(dateQuery, cmd)
@@ -20,7 +19,8 @@ def get_date_range():
 	pass
 
 
-def get_date_rows():
+def get_date_rows(lowerBound, upperBound):
+	
 	pass
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-import bsddb
 
 def process_email_q(cmd):
 	#print("emails")
@@ -38,7 +37,7 @@ def get_email_rows(eList):
 	emailSet = set()
 	db = database.open('em.idx')
 
-	while !eList.isEmpty():
+	while len(eList) != 0:
 		current = eList.pop()
 		emailSet.add( db.get( ["to","from","cc","bcc"].get(current[0]) + '-' + current[1]))
 		pass

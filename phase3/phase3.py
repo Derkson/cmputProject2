@@ -82,10 +82,10 @@ def printEmails(actualSet):
 	#print(actualSet)
 	for row in actualSet:
 		if mode:
-			#print(str(row)[1] + ' : ' + str(cur.set(row)[1].decode('utf-8')))
+			print(str(row)[1] + ' : ' + str(cur.set(row)[1].decode('utf-8')))
 		else:
-			#print(str(row)[1] + ' : ' + str(parse_subj(cur.set(row)[1].decode('utf-8'))))
-	#print("End of line.")
+			print(str(row)[1] + ' : ' + str(parse_subj(cur.set(row)[1].decode('utf-8'))))
+	print("End of line.")
 
 def parse_subj(full):
 	start = full.find('<subj>') + 5

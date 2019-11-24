@@ -1,6 +1,7 @@
 import re
 from datetime import *
 from bsddb3 import db
+from bdb_helper import *
 
 def process_date_q(cmd):
 	#takes a large string, and slices out the first valid date query,
@@ -56,18 +57,6 @@ def get_date_range(l,u,datelist):
 	return l, u
 
 
-def get_database():
-	database = db.DB()
-	DB_File = "da.idx"
-	database.open(DB_File, None, db.DB_BTREE, db.DB_CREATE)
-	return database
-
-def get_cursors():
-	d = get_database()
-	c_u = d.cursor()
-	c_l = d.cursor()
-	return c_l, c_u
-
 def get_date_rows_range(cur_lower, cur_upper, big_upper):
 	print("yeet")
 	rows = set()
@@ -95,7 +84,7 @@ def get_date_rows(datelist):
 	if len(datelist) == 0:
 		return set()
 
-	database = get_database()
+	database = get_database("da.idx")
 	# get and set cursors to first & last
 	cur_upper = database.cursor()
 	cur_lower = database.cursor()

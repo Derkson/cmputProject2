@@ -6,8 +6,8 @@ def get_database():
 	database.open(DB_File, None, db.DB_BTREE, db.DB_CREATE) 
 	return database
 	
-
-def get_rows(l, u):
+# Example on how to get rows from the data base
+def get_date_rows(l, u):
 	# given an upper and lower bound 
 	# l and u are INCLUSIVE 
 	# 	that exist withing the DB....
@@ -41,12 +41,6 @@ def get_rows(l, u):
 	return rows
 
 
-def write_test(l, u):
-	rows = get_rows(l, u)
-	with open("output.txt", 'w') as f:
-		for r in rows:
-			f.write(str(r)+ "\n")
-	return rows
 
 def get_cursors():
 	d = get_database()
@@ -55,8 +49,4 @@ def get_cursors():
 	return c_l, c_u 	
 
 if __name__ == "__main__":
-	def test(l, u, exp):
-		assert(type(exp) == type(set()))
-		assert(exp == get_rows(l,u))
-	
 	print("Running tests...")

@@ -24,7 +24,7 @@ def process_term_q(cmd):
 		term = term_q[:-1]
 	else:
 		term = term_q
-	obj = (prefix, term, wildcard, )
+	obj = (prefix, term.lower(), wildcard, )
 
 	# return everything that isnt the term query
 	return cmd[matcher.span()[1]:], obj

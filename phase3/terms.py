@@ -119,25 +119,3 @@ if __name__ == "__main__":
 	test_error(" < body")
 	test_error(": to")
 
-
-
-	#print(str(get_term_rows([\
-		('subj','from',True)\
-	])))
-	#print(str(get_term_rows([\
-		('body','from',True)\
-	])))
-	#print(str(get_term_rows([\
-		('subj','from',False)\
-	])))
-	#print(str(get_term_rows([\
-		('body','from',False)\
-	])))
-	#print(str(get_term_rows([\
-		('','from',True)\
-	])))
-	#print(str(get_term_rows([\
-		('','from',False)\
-	])))
-
-	## TODO: test more terms!!!!

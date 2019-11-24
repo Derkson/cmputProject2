@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <cstring>
 
 using namespace std;
 

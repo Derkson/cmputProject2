@@ -90,7 +90,7 @@ if __name__ == "__main__":
 			rem, obj = process_term_q(cmd)
 			assert(False)
 		except AssertionError as e:
-			#print("Assertion Failed: {}".format(cmd))
+			print("Assertion Failed: {}".format(cmd))
 		except Exception as e:
 			assert(True)
 

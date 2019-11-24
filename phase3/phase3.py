@@ -67,6 +67,7 @@ def handle_command(cmd):
 	#termSet = get_term_rows(termlist)
 
 	#return printEmails(dateSet.intersection(emailSet.intersection(termSet)))
+	return printEmails(dateSet)
 	pass
 
 def printEmails(actualSet):
@@ -75,8 +76,7 @@ def printEmails(actualSet):
 	cur = database.cursor()
 
 	for row in actualSet:
-		
-		pass
+		print(cur.get(row))
 	pass
 
 def main():

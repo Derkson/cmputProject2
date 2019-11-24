@@ -1,6 +1,7 @@
 from dates import *
 from emails import *
 from terms import *
+from bsddb3 import db
 # global mode stuff
 mode = True
 
@@ -62,21 +63,23 @@ def handle_command(cmd):
 		termlist.append(obj)
 
 	valid_pool = []
-	if datelist is not []:
+	if datelist != []:
 		valid_pool.append(get_date_rows(datelist))
-	if termlist is not []:
+	if termlist != []:
 		valid_pool.append(get_term_rows(termlist))
-#	if emaillist is not []:
-#		valid_pool.append(get_email_rows(emaillist))
+	if emaillist != []:
+		valid_pool.append(get_email_rows(emaillist))	
 
-	valid_pool = set.intersect(*valid_pool)
+	print(valid_pool)
+	valid_pool = set.intersection(*valid_pool)
 	return printEmails(valid_pool)
 
 def printEmails(actualSet):
 	database = db.DB()
-	database.open('re.idx', None, db.DB_BTREE, db.DB_CREATE)
+	database.open('re.idx', None, db.DB_HASH, db.DB_CREATE)
 	cur = database.cursor()
 
+	print(actualSet)
 	for row in actualSet:
 		if mode:
 			print(str(row) + ' : ' + str(cur.set(row).decode('utf-8')))

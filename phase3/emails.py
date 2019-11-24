@@ -45,7 +45,7 @@ def process_email_q(cmd):
 			return cmd, None
 		# TODO: do we need to check validity of emails???
 		print("good")
-		return (cmd[endIndex:].strip() , (number , email))
+		return (cmd[endIndex:].strip() , (number , email.lower()))
 	except Exception as e:
 		print(e)
 		# something went wrong....

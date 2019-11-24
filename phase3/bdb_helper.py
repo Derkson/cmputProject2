@@ -1,8 +1,7 @@
 from bsddb3 import db
 
-def get_database():
+def get_database(DB_File):
 	database = db.DB()
-	DB_File = "da.idx"
 	database.open(DB_File, None, db.DB_BTREE, db.DB_CREATE) 
 	return database
 	
@@ -43,7 +42,8 @@ def get_date_rows(l, u):
 
 
 def get_cursors():
-	d = get_database()
+	# example da.idx
+	d = get_database("da.idx")
 	c_u = d.cursor()
 	c_l = d.cursor()
 	return c_l, c_u 	

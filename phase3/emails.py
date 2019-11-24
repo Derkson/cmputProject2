@@ -32,14 +32,7 @@ def process_email_q(cmd):
 		number = ["to","from","cc","bcc"].index(cmd[:(colonIndex)].strip())
 
 		emailterm = "([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)@([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)"
-		#valid_email = emailterm + "@" + emailterm
-
 		matcher = re.search(emailterm,email)
-		'''
-		print(email)
-		print(matcher.span())
-		print(len(email))
-		'''
 		if not matcher or matcher.span()[0] != 0 or (matcher.span()[1] - matcher.span()[0]) != len(email):
 			print("Invalid Email")
 			return cmd, None

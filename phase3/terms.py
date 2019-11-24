@@ -36,6 +36,7 @@ def get_term_rows(termlist):
 	rows = set()
 	db = get_database("te.idx")
 	cursor = db.cursor()
+	last_term = cursor.last()[0]
 
 	for current in termlist:
 		termSet = set()
@@ -47,11 +48,15 @@ def get_term_rows(termlist):
 					termSet.add(cursor.current()[1])
 					print(cursor.current()[0])
 					cursor.next()
+					if cursor.current()[0] == last_term:
+						break
 			else:
 				while cursor.current()[0] == (b"b-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
 					print(cursor.current()[0])
 					cursor.next()
+					if cursor.current()[0] == last_term:
+						break
 
 		elif current[0] == "subj" or current[0] == "":
 			cursor.set_range(b"s-" + current[1].encode("utf8"))
@@ -60,11 +65,15 @@ def get_term_rows(termlist):
 					termSet.add(cursor.current()[1])
 					print(cursor.current()[0])
 					cursor.next()
+					if cursor.current()[0] == last_term:
+						break
 			else:
 				while cursor.current()[0] == (b"s-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
 					print(cursor.current()[0])
 					cursor.next()
+					if cursor.current()[0] == last_term:
+						break
 
 		rows.intersection_update(termSet)
 		#remove the first tuple from the termlist
@@ -110,9 +119,9 @@ if __name__ == "__main__":
 	test_error(" : body")
 	test_error(" < body")
 	test_error(": to")
-	
 
-	
+
+
 	print(str(get_term_rows([\
 		('subj','from',True)\
 	])))
@@ -131,5 +140,5 @@ if __name__ == "__main__":
 	print(str(get_term_rows([\
 		('','from',False)\
 	])))
-	
+
 	## TODO: test more terms!!!!

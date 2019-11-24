@@ -1,4 +1,5 @@
 from bdb_helper import *
+import re
 
 def process_email_q(cmd):
 	#print("emails")
@@ -30,6 +31,18 @@ def process_email_q(cmd):
 
 		number = ["to","from","cc","bcc"].index(cmd[:(colonIndex)].strip())
 
+		emailterm = "([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)@([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)"
+		#valid_email = emailterm + "@" + emailterm
+
+		matcher = re.search(emailterm,email)
+		'''
+		print(email)
+		print(matcher.span())
+		print(len(email))
+		'''
+		if not matcher or matcher.span()[0] != 0 or (matcher.span()[1] - matcher.span()[0]) != len(email):
+			print("Invalid Email")
+			return cmd, None
 		# TODO: do we need to check validity of emails???
 		return (cmd[endIndex:].strip() , (number , email))
 	except Exception as e:
@@ -38,11 +51,11 @@ def process_email_q(cmd):
 
 def get_email_rows(eList):
 
-	email_list = [] 
+	email_list = []
 	db = get_database('em.idx')
 	cursor = db.cursor()
 	cursor.last()
-	last_term = cursor.current()[0]	
+	last_term = cursor.current()[0]
 
 	for current in eList:
 		target = ["to","from","cc","bcc"][current[0]]+ '-' + current[1]
@@ -56,7 +69,7 @@ def get_email_rows(eList):
 			cursor.next()
 			if cursor.current()[0] == last_term:
 				break
-		
+
 		email_list.append(termSet)
 
 	return set.intersection(*email_list)

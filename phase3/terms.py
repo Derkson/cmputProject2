@@ -1,5 +1,5 @@
 import re
-
+from bdb_helper import get_database
 def process_term_q(cmd):
 	# if there is nothing left, return nothing
 	if cmd == "":
@@ -30,13 +30,38 @@ def process_term_q(cmd):
 	return cmd[matcher.span()[1]:], obj
 
 def get_term_rows(termlist):
+	#need to account for the prefix being body or subj
+	#need to account for if there is a wildcard
+	#finding matches or partial matches
 	termSet = set()
-	db = database.open('te.idx')
+	db = get_database("te.idx")
+	cursor = db.cursor()
 
-	while termList.len() != 0:
-		current = eList.pop()
-		pass
+	for current in termlist:
+		#cursor.set(current[1].encode("utf8"))
+		if current[0] == "body" or current[0] == "":
+			cursor.set("b-" + current[1].encode("utf8"))
+			if current[2] == True: #wildcard in body
+				while cursor.current()[0].find("b-" + current[0]) == 0:
+					termSet.add(cursor.current()[1])
+					cursor.next()
+			else:
+				while cursor.current()[0] == ("b-" + current[0]):
+					termSet.add(cursor.current()[1])
+					cursor.next()
 
+		elif current[0] == "subj" or current[0] == "":
+			cursor.set("s-" + current[1].encode("utf8"))
+			if current[2] == True: #wildcard in subj
+				while cursor.current()[0].find("s-" + current[0]) == 0:
+					termSet.add(cursor.current()[1])
+					cursor.next()
+			else:
+				while cursor.current()[0] == ("s-" + current[0]):
+					termSet.add(cursor.current()[1])
+					cursor.next()
+
+		#remove the first tuple from the termlist
 	return termSet
 
 

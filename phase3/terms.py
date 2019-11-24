@@ -38,27 +38,31 @@ def get_term_rows(termlist):
 	cursor = db.cursor()
 
 	for current in termlist:
-		#cursor.set(current[1].encode("utf8"))
+		#cursor.set_range(current[1].encode("utf8"))
 		if current[0] == "body" or current[0] == "":
-			cursor.set("b-" + current[1].encode("utf8"))
+			cursor.set_range(b"b-" + current[1].encode("utf8"))
 			if current[2] == True: #wildcard in body
-				while cursor.current()[0].find("b-" + current[0]) == 0:
+				while cursor.current()[0].find(b"b-" + current[1].encode("utf8")) == 0:
 					termSet.add(cursor.current()[1])
+					print(cursor.current()[0])
 					cursor.next()
 			else:
-				while cursor.current()[0] == ("b-" + current[0]):
+				while cursor.current()[0] == (b"b-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
+					print(cursor.current()[0])
 					cursor.next()
 
 		elif current[0] == "subj" or current[0] == "":
-			cursor.set("s-" + current[1].encode("utf8"))
+			cursor.set_range(b"s-" + current[1].encode("utf8"))
 			if current[2] == True: #wildcard in subj
-				while cursor.current()[0].find("s-" + current[0]) == 0:
+				while cursor.current()[0].find(b"s-" + current[1].encode("utf8")) == 0:
 					termSet.add(cursor.current()[1])
+					print(cursor.current()[0])
 					cursor.next()
 			else:
-				while cursor.current()[0] == ("s-" + current[0]):
+				while cursor.current()[0] == (b"s-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
+					print(cursor.current()[0])
 					cursor.next()
 
 		#remove the first tuple from the termlist
@@ -104,3 +108,24 @@ if __name__ == "__main__":
 	test_error(" : body")
 	test_error(" < body")
 	test_error(": to")
+	
+
+	
+	print(str(get_term_rows([\
+		('subj','from',True)\
+	])))
+	print(str(get_term_rows([\
+		('body','from',True)\
+	])))
+	print(str(get_term_rows([\
+		('subj','from',False)\
+	])))
+	print(str(get_term_rows([\
+		('body','from',False)\
+	])))
+	print(str(get_term_rows([\
+		('','from',True)\
+	])))
+	print(str(get_term_rows([\
+		('','from',False)\
+	])))

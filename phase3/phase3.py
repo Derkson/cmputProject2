@@ -37,7 +37,7 @@ def handle_command(cmd):
 
 		if starts_with(cmd, "output="):
 			print("MODE")
-			cmd, obj = handle_mode(cmd)
+			handle_mode(cmd)
 			break; # only allowd to have mode change
 
 		if cmd == "exit()":

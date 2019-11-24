@@ -2,7 +2,7 @@ from dates import *
 from emails import *
 from terms import *
 # global mode stuff
-mode = "full"
+mode = True
 
 
 def starts_with(string, substring):
@@ -17,10 +17,10 @@ def starts_with_email(string):
 def handle_mode(cmd):
 	global mode
 	if cmd == "output=brief":
-		mode = "breif"
+		mode = False
 		return cmd[12:]
 	elif cmd == "output=full":
-		mode = "full"
+		mode = True
 		return cmd[11:]
 	else:
 		raise Exception("Invalid Mode change")
@@ -67,7 +67,7 @@ def handle_command(cmd):
 	if termlist is not []:
 		valid_pool.append(get_term_rows(termlist))
 #	if emaillist is not []:
-#		valid_pool.append(get_email_rows(emaillist))	
+#		valid_pool.append(get_email_rows(emaillist))
 
 	valid_pool = set.intersect(*valid_pool)
 	return printEmails(valid_pool)
@@ -78,7 +78,16 @@ def printEmails(actualSet):
 	cur = database.cursor()
 
 	for row in actualSet:
-		print(cur.set(row))
+		if mode:
+			print(str(row) + ' : ' + str(cur.set(row).decode('utf-8')))
+		else:
+			print(str(row) + ' : ' + str(parse_subj(cur.set(row).decode('utf-8'))))
+	print("End of line.")
+
+def parse_subj(full):
+	start = full.find('<subj>') + 5
+	end = full.find('</subj>') - 1
+	return full[start:end]
 
 def main():
 	global mode

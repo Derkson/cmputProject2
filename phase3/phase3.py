@@ -36,7 +36,7 @@ def handle_command(cmd):
 		cmd = cmd.strip()
 
 		if starts_with(cmd, "output="):
-			print("MODE")
+			#print("MODE")
 			handle_mode(cmd)
 			return
 
@@ -46,20 +46,20 @@ def handle_command(cmd):
 
 		if starts_with(cmd, "date"):
 			cmd, obj = process_date_q(cmd.strip())
-			print(obj)
+			#print(obj)
 			if obj != None:
 				datelist.append(obj)
 				continue
 
 		if starts_with_email(cmd):
 			cmd, obj = process_email_q(cmd.strip())
-			print(obj)
+			#print(obj)
 			if obj != None:
 				emaillist.append(obj)
 				continue
 
 		cmd, obj = process_term_q(cmd.strip())
-		print(obj)
+		#print(obj)
 		termlist.append(obj)
 
 	valid_pool = []
@@ -70,7 +70,7 @@ def handle_command(cmd):
 	if emaillist != []:
 		valid_pool.append(get_email_rows(emaillist))	
 
-	print(valid_pool)
+	#print(valid_pool)
 	valid_pool = set.intersection(*valid_pool)
 	return printEmails(valid_pool)
 
@@ -79,13 +79,13 @@ def printEmails(actualSet):
 	database.open('re.idx', None, db.DB_HASH, db.DB_CREATE)
 	cur = database.cursor()
 
-	print(actualSet)
+	#print(actualSet)
 	for row in actualSet:
 		if mode:
-			print(str(row)[1] + ' : ' + str(cur.set(row)[1].decode('utf-8')))
+			#print(str(row)[1] + ' : ' + str(cur.set(row)[1].decode('utf-8')))
 		else:
-			print(str(row)[1] + ' : ' + str(parse_subj(cur.set(row)[1].decode('utf-8'))))
-	print("End of line.")
+			#print(str(row)[1] + ' : ' + str(parse_subj(cur.set(row)[1].decode('utf-8'))))
+	#print("End of line.")
 
 def parse_subj(full):
 	start = full.find('<subj>') + 5
@@ -99,10 +99,10 @@ def main():
 			# prompt for a command
 			handle_command(input("> ").strip())
 		except KeyboardInterrupt as e:
-			print("\nBye!")
+			#print("\nBye!")
 			exit(0)
 		except Exception as e:
-			print(e)
+			#print(e)
 
 if __name__ == "__main__":
 	main()

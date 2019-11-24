@@ -30,7 +30,7 @@ def get_database(DB_File, db_type=db.DB_BTREE):
 #
 #	# get all rows between l, u
 #	while lower_k <=  upper_k:
-#		#print("l: {}, {}".format(lower_k, lower_v))
+#		##print("l: {}, {}".format(lower_k, lower_v))
 #		cur_lower.next()
 #		lower_k, lower_v = cur_lower.current()
 #		if lower_k <=  upper_k:
@@ -49,4 +49,4 @@ def get_cursors():
 	return c_l, c_u 	
 
 if __name__ == "__main__":
-	print("Running tests...")
+	#print("Running tests...")

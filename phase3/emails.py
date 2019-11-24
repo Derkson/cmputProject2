@@ -2,7 +2,7 @@ from bdb_helper import *
 import re
 
 def process_email_q(cmd):
-	#print("emails")
+	##print("emails")
 	try:
 		colonIndex = cmd.find(':')
 		if colonIndex == -1:
@@ -14,11 +14,11 @@ def process_email_q(cmd):
 		while endIndex == increment + 1:
 			increment += 1
 			endIndex = increment + cmd[increment:].find(' ') + 1
-			#print(increment,"---",endIndex)
+			##print(increment,"---",endIndex)
 			pass
 
 		#Here endIndex =  the index of the first space after the email
-		#print(increment, "    " , endIndex)
+		##print(increment, "    " , endIndex)
 
 		#regular case
 		email = cmd[colonIndex + 1:endIndex].strip()
@@ -36,18 +36,18 @@ def process_email_q(cmd):
 
 		matcher = re.search(emailterm,email)
 		'''
-		print(email)
-		print(matcher.span())
-		print(len(email))
+		#print(email)
+		#print(matcher.span())
+		#print(len(email))
 		'''
 		if not matcher or matcher.span()[0] != 0 or (matcher.span()[1] - matcher.span()[0]) != len(email):
-			print("Invalid Email")
+			#print("Invalid Email")
 			return cmd, None
 		# TODO: do we need to check validity of emails???
-		print("good")
+		#print("good")
 		return (cmd[endIndex:].strip() , (number , email.lower()))
 	except Exception as e:
-		print(e)
+		#print(e)
 		# something went wrong....
 		return cmd, None
 
@@ -67,7 +67,7 @@ def get_email_rows(eList):
 		cursor.set_range(target)
 		while cursor.current()[0] == target:
 			termSet.add(cursor.current()[1])
-			print(cursor.current()[0])
+			#print(cursor.current()[0])
 			cursor.next()
 			if cursor.current()[0] == last_term:
 				break
@@ -79,5 +79,5 @@ def get_email_rows(eList):
 
 
 if __name__ == "__main__":
-	print("Testing emails...")
-	#print(process_email_q("to:western.price.survey.contacts@ren-6.cais.net"))
+	#print("Testing emails...")
+	##print(process_email_q("to:western.price.survey.contacts@ren-6.cais.net"))

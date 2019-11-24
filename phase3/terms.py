@@ -47,14 +47,14 @@ def get_term_rows(termlist):
 			if current[2] == True: #wildcard in body
 				while cursor.current()[0].find(b"b-" + current[1].encode("utf8")) == 0:
 					termSet.add(cursor.current()[1])
-					print(cursor.current()[0])
+					#print(cursor.current()[0])
 					cursor.next()
 					if cursor.current()[0] == last_term:
 						break
 			else:
 				while cursor.current()[0] == (b"b-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
-					print(cursor.current()[0])
+					#print(cursor.current()[0])
 					cursor.next()
 					if cursor.current()[0] == last_term:
 						break
@@ -64,14 +64,14 @@ def get_term_rows(termlist):
 			if current[2] == True: #wildcard in subj
 				while cursor.current()[0].find(b"s-" + current[1].encode("utf8")) == 0:
 					termSet.add(cursor.current()[1])
-					print(cursor.current()[0])
+					#print(cursor.current()[0])
 					cursor.next()
 					if cursor.current()[0] == last_term:
 						break
 			else:
 				while cursor.current()[0] == (b"s-" + current[1].encode("utf8")):
 					termSet.add(cursor.current()[1])
-					print(cursor.current()[0])
+					#print(cursor.current()[0])
 					cursor.next()
 					if cursor.current()[0] == last_term:
 						break
@@ -90,11 +90,11 @@ if __name__ == "__main__":
 			rem, obj = process_term_q(cmd)
 			assert(False)
 		except AssertionError as e:
-			print("Assertion Failed: {}".format(cmd))
+			#print("Assertion Failed: {}".format(cmd))
 		except Exception as e:
 			assert(True)
 
-	print("running tests...")
+	#print("running tests...")
 	test_proc("body:tm_-90    ","    ",('body', 'tm_-90', False))
 	test_proc("subj:tem_-123   ","   ",('subj', 'tem_-123', False) )
 	test_proc("body:  m_-23  ","  ", ('body','m_-23',False))
@@ -121,22 +121,22 @@ if __name__ == "__main__":
 
 
 
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('subj','from',True)\
 	])))
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('body','from',True)\
 	])))
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('subj','from',False)\
 	])))
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('body','from',False)\
 	])))
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('','from',True)\
 	])))
-	print(str(get_term_rows([\
+	#print(str(get_term_rows([\
 		('','from',False)\
 	])))
 

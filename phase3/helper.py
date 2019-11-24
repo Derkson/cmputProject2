@@ -31,7 +31,7 @@ def get_rows(l, u):
 
 	# get all rows between l, u
 	while lower_k <=  upper_k:
-		#print("l: {}, {}".format(lower_k, lower_v))
+		##print("l: {}, {}".format(lower_k, lower_v))
 		cur_lower.next()
 		lower_k, lower_v = cur_lower.current()
 		if lower_k <=  upper_k:
@@ -59,4 +59,4 @@ if __name__ == "__main__":
 		assert(type(exp) == type(set()))
 		assert(exp == get_rows(l,u))
 	
-	print("Running tests...")
+	#print("Running tests...")

@@ -12,7 +12,7 @@ def process_date_q(cmd):
 	if matcher and matcher.span()[0] == 0:
 		operator = re.search("(:|>=|<=|>|<)", matcher.group(0))
 		date = re.search("\d{4}\/\d{2}\/\d{2}", matcher.group(0))
-		print(operator)
+		#print(operator)
 		return cmd[len(matcher.group(0)):].strip(), (operator.group(0), date.group(0))
 	else:
 		raise Exception("Invalid Query")
@@ -58,19 +58,19 @@ def get_date_range(l,u,datelist):
 
 
 def get_date_rows_range(cur_lower, cur_upper, big_upper):
-	print("yeet")
+	#print("yeet")
 	rows = set()
 	
 	# get cursor data
 	upper_k, upper_v = cur_upper.current()
 	lower_k, lower_v = cur_lower.current()
 	
-	print("yeet")
-	print(upper_k)
-	print(lower_k)
+	#print("yeet")
+	#print(upper_k)
+	#print(lower_k)
 	# get all rows between l, u
 	while lower_k <=  upper_k:
-		print("l: {}, {}".format(lower_k, lower_v))
+		#print("l: {}, {}".format(lower_k, lower_v))
 		cur_lower.next()
 		lower_k, lower_v = cur_lower.current()
 		rows.add(lower_v)
@@ -101,15 +101,15 @@ def get_date_rows(datelist):
 
 	l = l.encode("utf8")
 	u = u.encode("utf8")
-	print("what?")
-	print(l)
-	print(u)
+	#print("what?")
+	#print(l)
+	#print(u)
 	# set cursors to l and u
 	# assert l, u are byte strings...
 	cur_upper.set_range(u)
 	cur_lower.set_range(l)
-	#print(cur_lower.current())
-	#print(cur_upper.current())
+	##print(cur_lower.current())
+	##print(cur_upper.current())
 
 	upper_k, upper_v = cur_upper.current()
 	# adjust if date is equal
@@ -125,40 +125,40 @@ def get_date_rows(datelist):
 
 if __name__ == "__main__":
 	#pass
-	#print(process_date_q("date>9999/12/22		yeet 	date:1233/33/21"))
-	#print(process_date_q("date>1923/44/23   date:3455/12/56"))
-	#print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))
-	#print(process_date_q("DATE/4/213/3"))
-	print(process_date_q("date<=9999/12/12"))
-	#print("Testing dates...")
+	##print(process_date_q("date>9999/12/22		yeet 	date:1233/33/21"))
+	##print(process_date_q("date>1923/44/23   date:3455/12/56"))
+	##print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))
+	##print(process_date_q("DATE/4/213/3"))
+	#print(process_date_q("date<=9999/12/12"))
+	##print("Testing dates...")
 	'''
 	lowerBound = "2010/01/01"
 	upperBound = "2020/01/01"
-	print(get_date_range(lowerBound,upperBound,[(":","2009/04/21")]))
-	print(get_date_range(lowerBound,upperBound,[(":","2017/04/21")]))
-	print(get_date_range(lowerBound,upperBound,[(":","2022/04/21")]))
-	print(get_date_range(lowerBound,upperBound,[(">","2009/04/21")]))
-	print(get_date_range(lowerBound,upperBound,[(">","2010/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">","2013/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">","2020/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">","2020/01/02")]))
-	print(get_date_range(lowerBound,upperBound,[(">=","2009/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">=","2010/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">=","2012/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">=","2020/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[(">=","2021/01/01")]))
-	print("lalalalalallalalala")
-	print(get_date_range(lowerBound,upperBound,[("<","2009/04/21")]))
-	print(get_date_range(lowerBound,upperBound,[("<","2010/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<","2013/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<","2020/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<","2020/01/02")]))
-	print(get_date_range(lowerBound,upperBound,[("<=","2009/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<=","2010/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<=","2012/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<=","2020/01/01")]))
-	print(get_date_range(lowerBound,upperBound,[("<=","2021/01/01")]))
-	print("BILBO BAGGY SHORTS")
-	print(get_date_range(lowerBound,upperBound,[("<=","2016/01/01"),(">","2013/04/15")]))
-	print(get_date_range(lowerBound,upperBound,[(":","2016/01/01"),(">","2016/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(":","2009/04/21")]))
+	#print(get_date_range(lowerBound,upperBound,[(":","2017/04/21")]))
+	#print(get_date_range(lowerBound,upperBound,[(":","2022/04/21")]))
+	#print(get_date_range(lowerBound,upperBound,[(">","2009/04/21")]))
+	#print(get_date_range(lowerBound,upperBound,[(">","2010/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">","2013/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">","2020/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">","2020/01/02")]))
+	#print(get_date_range(lowerBound,upperBound,[(">=","2009/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">=","2010/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">=","2012/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">=","2020/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[(">=","2021/01/01")]))
+	#print("lalalalalallalalala")
+	#print(get_date_range(lowerBound,upperBound,[("<","2009/04/21")]))
+	#print(get_date_range(lowerBound,upperBound,[("<","2010/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<","2013/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<","2020/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<","2020/01/02")]))
+	#print(get_date_range(lowerBound,upperBound,[("<=","2009/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<=","2010/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<=","2012/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<=","2020/01/01")]))
+	#print(get_date_range(lowerBound,upperBound,[("<=","2021/01/01")]))
+	#print("BILBO BAGGY SHORTS")
+	#print(get_date_range(lowerBound,upperBound,[("<=","2016/01/01"),(">","2013/04/15")]))
+	#print(get_date_range(lowerBound,upperBound,[(":","2016/01/01"),(">","2016/01/01")]))
 '''

@@ -102,7 +102,7 @@ def main():
 			#print("\nBye!")
 			exit(0)
 		except Exception as e:
-			#print(e)
+			print(e)
 
 if __name__ == "__main__":
 	main()

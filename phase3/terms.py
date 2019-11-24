@@ -33,10 +33,11 @@ def get_term_rows(termlist):
 	#need to account for the prefix being body or subj
 	#need to account for if there is a wildcard
 	#finding matches or partial matches
-	rows = set()
+	rows = []
 	db = get_database("te.idx")
 	cursor = db.cursor()
-	last_term = cursor.last()[0]
+	cursor.last()
+	last_term = cursor.current()[0]
 
 	for current in termlist:
 		termSet = set()
@@ -74,10 +75,8 @@ def get_term_rows(termlist):
 					cursor.next()
 					if cursor.current()[0] == last_term:
 						break
-
-		rows.intersection_update(termSet)
-		#remove the first tuple from the termlist
-	return rows
+		rows.append(termSet)
+	return set.intersection(*rows)
 
 
 if __name__ == "__main__":

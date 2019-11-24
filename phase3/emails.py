@@ -1,3 +1,4 @@
+from bdb_helper import *
 
 def process_email_q(cmd):
 	#print("emails")
@@ -37,14 +38,29 @@ def process_email_q(cmd):
 
 def get_email_rows(eList):
 
-	emailSet = set()
-	db = database.open('em.idx')
+	email_list = [] 
+	db = get_database('em.idx')
+	cursor = db.cursor()
+	cursor.last()
+	last_term = cursor.current()[0]	
 
 	for current in eList:
-		emailSet.add( db.get( ["to","from","cc","bcc"].get(current[0]) + '-' + current[1]))
-		pass
+		target = ["to","from","cc","bcc"][current[0]]+ '-' + current[1]
+		target = target.encode("utf8")
 
-	return emailSet
+		termSet = set()
+		cursor.set_range(target)
+		while cursor.current()[0] == target:
+			termSet.add(cursor.current()[1])
+			print(cursor.current()[0])
+			cursor.next()
+			if cursor.current()[0] == last_term:
+				break
+		
+		email_list.append(termSet)
+
+	return set.intersection(*email_list)
+
 
 
 if __name__ == "__main__":

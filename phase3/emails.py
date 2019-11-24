@@ -3,6 +3,9 @@ def process_email_q(cmd):
 	#print("emails")
 	try:
 		colonIndex = cmd.find(':')
+		if colonIndex == -1:
+			return cmd, None
+			pass
 
 		increment = colonIndex
 		endIndex = colonIndex + cmd[colonIndex:].find(' ')

@@ -79,5 +79,6 @@ def get_email_rows(eList):
 
 
 if __name__ == "__main__":
+	pass
 	#print("Testing emails...")
 	##print(process_email_q("to:western.price.survey.contacts@ren-6.cais.net"))

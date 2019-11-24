@@ -49,4 +49,4 @@ def get_cursors():
 	return c_l, c_u 	
 
 if __name__ == "__main__":
-	#print("Running tests...")
+	print("Running tests...")

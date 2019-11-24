@@ -61,14 +61,16 @@ def handle_command(cmd):
 		print(obj)
 		termlist.append(obj)
 
-	dateSet = get_date_rows(datelist)
-	print("final result" + str(dateSet))
-	#emailSet =  get_email_rows(emaillist)
-	#termSet = get_term_rows(termlist)
+	valid_pool = []
+	if datelist is not []:
+		valid_pool.append(get_date_rows(datelist))
+	if termlist is not []:
+		valid_pool.append(get_term_rows(termlist))
+#	if emaillist is not []:
+#		valid_pool.append(get_email_rows(emaillist))	
 
-	#return printEmails(dateSet.intersection(emailSet.intersection(termSet)))
-	return printEmails(dateSet)
-	pass
+	valid_pool = set.intersect(*valid_pool)
+	return printEmails(valid_pool)
 
 def printEmails(actualSet):
 

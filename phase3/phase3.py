@@ -72,11 +72,11 @@ def handle_command(cmd):
 
 def printEmails(actualSet):
 
-	database = get_database("re.idx")
+	database = get_database("recs.idx")
 	cur = database.cursor()
 
 	for row in actualSet:
-		print(cur.get(row))
+		print(cur.set(row))
 	pass
 
 def main():

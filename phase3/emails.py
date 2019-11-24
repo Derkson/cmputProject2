@@ -31,7 +31,7 @@ def process_email_q(cmd):
 
 		number = ["to","from","cc","bcc"].index(cmd[:(colonIndex)].strip())
 
-		emailterm = "([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)@([A-Za-z_-]*(\.[A-Za-z_-]*)+|[A-Za-z_-]*)"
+		emailterm = "([A-Za-z0-9_-]*(\.[A-Za-z0-9_-]*)+|[A-Za-z0-9_-]*)@([A-Za-z0-9_-]*(\.[A-Za-z0-9_-]*)+|[A-Za-z0-9_-]*)"
 		#valid_email = emailterm + "@" + emailterm
 
 		matcher = re.search(emailterm,email)
@@ -44,8 +44,10 @@ def process_email_q(cmd):
 			print("Invalid Email")
 			return cmd, None
 		# TODO: do we need to check validity of emails???
+		print("good")
 		return (cmd[endIndex:].strip() , (number , email))
 	except Exception as e:
+		print(e)
 		# something went wrong....
 		return cmd, None
 
@@ -78,3 +80,4 @@ def get_email_rows(eList):
 
 if __name__ == "__main__":
 	print("Testing emails...")
+	#print(process_email_q("to:western.price.survey.contacts@ren-6.cais.net"))

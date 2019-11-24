@@ -1,10 +1,11 @@
 import re
 from datetime import *
-#takes a large string, and slices out the first valid date query,
-#returns a tuple, 0th index is the remaining string, 1st index another tuple
-#with 0th index being the operator and the 1st index is the date
+from bsddb3 import db
 
 def process_date_q(cmd):
+	#takes a large string, and slices out the first valid date query,
+	#returns a tuple, 0th index is the remaining string, 1st index another tuple
+	#with 0th index being the operator and the 1st index is the date
 	dateQuery = "(date)\s*(:|>|<|>=|<=)\s*\d{4}\/\d{2}\/\d{2}" #regex to find a valid date query
 	matcher = re.search(dateQuery, cmd)
 	if matcher and matcher.span()[0] == 0:
@@ -53,20 +54,81 @@ def get_date_range(l,u,datelist):
 
 	return l, u
 
+
+def get_database():
+	database = db.DB()
+	DB_File = "da.idx"
+	database.open(DB_File, None, db.DB_BTREE, db.DB_CREATE)
+	return database
+
+def get_cursors():
+	d = get_database()
+	c_u = d.cursor()
+	c_l = d.cursor()
+	return c_l, c_u
+
+def get_date_rows_range(cur_lower, cur_upper):
+	print("yeet")
+	rows = set()
+	
+	# shift back one 
+	# get cursor data
+	upper_k, upper_v = cur_upper.current()
+	lower_k, lower_v = cur_lower.current()
+	
+	print("yeet")
+	print(upper_k)
+	print(lower_k)
+	# get all rows between l, u
+	while lower_k <=  upper_k:
+		print("l: {}, {}".format(lower_k, lower_v))
+		cur_lower.next()
+		lower_k, lower_v = cur_lower.current()
+		rows.add(lower_v)
+
+	return rows
+
 def get_date_rows(datelist):
 
-	if datelist.isEmpty():
+	if len(datelist) == 0:
 		return set()
+
+	database = get_database()
+	# get and set cursors to first & last
+	cur_upper = database.cursor()
+	cur_lower = database.cursor()
+	cur_upper.last()
+	cur_lower.first()
 
 	# i will get you your databse lower and upperBound
-	l, u = get_date_range(l,u,datelist)
+	l = cur_lower.current()[0]
+	u = cur_upper.current()[0]
+	l, u = get_date_range(l.decode("utf8"),u.decode("utf8"),datelist)
 	if l == None:
 		return set()
-	return get_date_rows_range(l, u)
 
+	l = l.encode("utf8")
+	u = u.encode("utf8")
+	print("what?")
+	print(l)
+	print(u)
+	# set cursors to l and u
+	# assert l, u are byte strings...
+	cur_upper.set_range(u)
+	cur_lower.set_range(l)
+	print(cur_lower.current())
+	print(cur_upper.current())
 
-def get_date_rows_range(lowerBound, upperBound):
-	pass
+	upper_k, upper_v = cur_upper.current()
+	# adjust if date is equal 
+	while upper_k == u:
+		cur_upper.next()
+		upper_k, upper_v = cur_upper.current()
+	# move it back one 
+	cur_upper.prev()
+
+	return get_date_rows_range(cur_lower, cur_upper)
+
 
 if __name__ == "__main__":
 	#pass

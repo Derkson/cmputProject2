@@ -8,8 +8,9 @@ def process_date_q(cmd):
 	dateQuery = "(date)\s*(:|>|<|>=|<=)\s*\d{4}\/\d{2}\/\d{2}" #regex to find a valid date query
 	matcher = re.search(dateQuery, cmd)
 	if matcher and matcher.span()[0] == 0:
-		operator = re.search("(:|>|<|>=|<=)", matcher.group(0))
+		operator = re.search("(:|>=|<=|>|<)", matcher.group(0))
 		date = re.search("\d{4}\/\d{2}\/\d{2}", matcher.group(0))
+		print(operator)
 		return cmd[len(matcher.group(0)):].strip(), (operator.group(0), date.group(0))
 	else:
 		raise Exception("Invalid Query")
@@ -74,7 +75,9 @@ if __name__ == "__main__":
 	#print(process_date_q("date>1923/44/23   date:3455/12/56"))
 	#print(process_date_q("date<4444/69/69 YYEEET BITHC TITSTE"))
 	#print(process_date_q("DATE/4/213/3"))
+	print(process_date_q("date<=9999/12/12"))
 	#print("Testing dates...")
+	'''
 	lowerBound = "2010/01/01"
 	upperBound = "2020/01/01"
 	print(get_date_range(lowerBound,upperBound,[(":","2009/04/21")]))
@@ -104,3 +107,4 @@ if __name__ == "__main__":
 	print("BILBO BAGGY SHORTS")
 	print(get_date_range(lowerBound,upperBound,[("<=","2016/01/01"),(">","2013/04/15")]))
 	print(get_date_range(lowerBound,upperBound,[(":","2016/01/01"),(">","2016/01/01")]))
+'''

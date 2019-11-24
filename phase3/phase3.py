@@ -89,7 +89,7 @@ def printEmails(actualSet):
 
 def parse_subj(full):
 	start = full.find('<subj>') + 5
-	end = full.find('</subj>') - 1
+	end = full.find('</subj>') 
 	return full[start:end]
 
 def main():

@@ -73,13 +73,12 @@ def handle_command(cmd):
 	return printEmails(valid_pool)
 
 def printEmails(actualSet):
-
-	database = get_database("recs.idx")
+	database = db.DB()
+	database.open('re.idx', None, db.DB_BTREE, db.DB_CREATE)
 	cur = database.cursor()
 
 	for row in actualSet:
 		print(cur.set(row))
-	pass
 
 def main():
 	global mode

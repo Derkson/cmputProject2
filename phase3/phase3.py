@@ -38,7 +38,7 @@ def handle_command(cmd):
 		if starts_with(cmd, "output="):
 			print("MODE")
 			handle_mode(cmd)
-			break; # only allowd to have mode change
+			return
 
 		if cmd == "exit()":
 			# Custom Exit command

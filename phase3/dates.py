@@ -68,11 +68,10 @@ def get_cursors():
 	c_l = d.cursor()
 	return c_l, c_u
 
-def get_date_rows_range(cur_lower, cur_upper):
+def get_date_rows_range(cur_lower, cur_upper, big_upper):
 	print("yeet")
 	rows = set()
 	
-	# shift back one 
 	# get cursor data
 	upper_k, upper_v = cur_upper.current()
 	lower_k, lower_v = cur_lower.current()
@@ -86,6 +85,8 @@ def get_date_rows_range(cur_lower, cur_upper):
 		cur_lower.next()
 		lower_k, lower_v = cur_lower.current()
 		rows.add(lower_v)
+		if lower_k == big_upper:
+			break
 
 	return rows
 
@@ -104,6 +105,7 @@ def get_date_rows(datelist):
 	# i will get you your databse lower and upperBound
 	l = cur_lower.current()[0]
 	u = cur_upper.current()[0]
+	big_upper = u
 	l, u = get_date_range(l.decode("utf8"),u.decode("utf8"),datelist)
 	if l == None:
 		return set()
@@ -117,18 +119,19 @@ def get_date_rows(datelist):
 	# assert l, u are byte strings...
 	cur_upper.set_range(u)
 	cur_lower.set_range(l)
-	print(cur_lower.current())
-	print(cur_upper.current())
+	#print(cur_lower.current())
+	#print(cur_upper.current())
 
 	upper_k, upper_v = cur_upper.current()
-	# adjust if date is equal 
-	while upper_k == u:
-		cur_upper.next()
-		upper_k, upper_v = cur_upper.current()
-	# move it back one 
-	cur_upper.prev()
+	# adjust if date is equal
+	if not (upper_k == big_upper and upper_k == u):
+		while upper_k == u and upper_k != big_upper:
+			cur_upper.next()
+			upper_k, upper_v = cur_upper.current()
+		# move it back one 
+		cur_upper.prev()
 
-	return get_date_rows_range(cur_lower, cur_upper)
+	return get_date_rows_range(cur_lower, cur_upper, big_upper)
 
 
 if __name__ == "__main__":

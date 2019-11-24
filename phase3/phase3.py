@@ -66,6 +66,18 @@ def handle_command(cmd):
 	#emailSet =  get_email_rows(emaillist)
 	#termSet = get_term_rows(termlist)
 
+	#return printEmails(dateSet.intersection(emailSet.intersection(termSet)))
+	pass
+
+def printEmails(actualSet):
+
+	database = get_database("re.idx")
+	cur = database.cursor()
+
+	for row in actualSet:
+		
+		pass
+	pass
 
 def main():
 	global mode
